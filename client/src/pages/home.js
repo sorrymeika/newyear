@@ -73,9 +73,10 @@ class Love {
             placeholder: '去了哪些地方？'
         }];
 
-        loves.map((data) => {
+        this.loves = loves.map((data) => {
             const love = this.createLove(data);
             this.$el.append(love.$el);
+            return love;
         });
     }
 
