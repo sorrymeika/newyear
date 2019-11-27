@@ -1,3 +1,4 @@
+import './css/iconfont/iconfont.css';
 import './style.css';
 import app from './app';
 

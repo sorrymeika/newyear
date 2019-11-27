@@ -1,0 +1,48 @@
+.app-viewport { width: 100%; max-width: 414px; margin: auto; }
+.app-footer { position: fixed; bottom: 0; left: 0; right: 0; background: #fff; height: 50px; z-index: 1000; }
+.app-footer .btn:first-child { margin-left: 10px; }
+.app-footer .btn { height: 34px; border-radius: 17px; background-color: #f23030; color: #fff; margin: 0 10px 0 0; }
+.app-footer .btn_light { background-color: #ffa001; }
+
+.app-home { padding-bottom: 50px; }
+.app-home h1 { font-size: 24px; padding: 10px; }
+.app-home h2 { font-size: 18px; padding: 0 10px; color: #aaa; }
+.app-home h2 .line { display: block; height: 0px; margin-left: 10px; }
+.app-card { background: #fff; border-radius: 10px; margin: 10px; }
+.app-list { background: #fff; }
+
+.app-form-item { margin: 10px; }
+.app-form-item .title { margin: 0 0 6px 0; font-size: 14px; }
+.app-form-item .title span { color: #f23030; font-weight: bold; padding-left: 4px; }
+.app-text { margin: 0 0 10px 0; background: #fff; border: 0; display: block; border-radius: 10px; width: 100%; padding: 8px; height: 80px; }
+
+.app-upload-item { float: left; margin-right: 10px; width: 60px; height: 60px; margin-bottom: 10px; overflow: hidden; }
+.app-upload-item img { display: block; width: 100%; height: 100%; }
+.app-upload { position: relative; width: 60px; height: 60px; background: #eee; float: left; margin-bottom: 10px; }
+.app-upload input { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; z-index: 100; }
+.app-upload .icon-add { font-size: 34px; color: #999; }
+.app-upload-item .icon-close { font-size: 11px; overflow: hidden; border-bottom-left-radius: 14px; background: #ddd; width: 18px; height: 18px; }
+.app-upload-item .icon-close::before { display: block; margin-right: -2px; margin-top: -2px; }
+
+.home_day_form_item { position: relative; }
+.home_day_form_item .icon-close { position: absolute; right: 0; top: 0; z-index: 101; }
+.home_day_form_item .date { background: #eee; border-radius: 2px; padding: 0 4px; font-size: 12px; color: #666; position: relative; padding-right: 12px; }
+.home_day_form_item .date::after { position: absolute; content: ""; right: 4px; top: 5px; display: block; width: 3px; height: 3px; border-right: 1px solid #999; border-bottom: 1px solid #999; transform: rotate(45deg) }
+.home_newday_btn { background-color: #f23030; color: #fff; height: 28px; width: 130px; border-radius: 14px; margin-left: 10px; margin-bottom: 10px; }
+
+
+.app-luck-month { font-weight: bold; margin-left: 10px; width: 28px; font-size: 12px; text-align: right; }
+.app-luck-item { height: 20px; margin: 10px; }
+.app-luck-item .bar { height: 20px; border-radius: 20px; background-image: linear-gradient(90deg, #0079FF, #f23030); margin: 0 5px; position: relative; overflow: hidden; }
+.app-luck-item .bar .progress { height: 18px; border-top-right-radius: 9px; border-bottom-right-radius: 9px; background: #fafafa; margin: 1px; position: absolute; right: 0; top: 0; left: 50%; bottom: 1px; }
+.app-luck-item .bad { font-size: 11px; color: #0079FF; }
+.app-luck-item .good { font-size: 11px; color: #f23030; }
+
+.home_health_sum { font-size: 14px; line-height: 30px; }
+.home_health_sum button { font-weight: bold; font-size: 12px; padding: 2px 4px; border-radius: 2px; background: #eee; color: #f23030; position: relative; padding-right: 12px; vertical-align: baseline; }
+.home_health_sum button::after { position: absolute; content: ""; right: 4px; top: 5px; display: block; width: 3px; height: 3px; border-right: 1px solid #999; border-bottom: 1px solid #999; transform: rotate(45deg) }
+
+.home_love_item { padding: 14px; font-size: 14px; color: #666; }
+
+.home_keywords { margin-bottom: 5px; }
+.home_keywords_item { float: left; margin-left: 6px; font-size: 13px; margin-bottom: 6px; padding: 3px 8px; border-radius: 3px; background: #eee; }

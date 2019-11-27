@@ -1,0 +1,38 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" >
+<!--
+2013-9-30: Created.
+-->
+<svg>
+<metadata>
+Created by iconfont
+</metadata>
+<defs>
+
+<font id="iconfont" horiz-adv-x="1024" >
+  <font-face
+    font-family="iconfont"
+    font-weight="500"
+    font-stretch="normal"
+    units-per-em="1024"
+    ascent="896"
+    descent="-128"
+  />
+    <missing-glyph />
+    
+    <glyph glyph-name="add" unicode="&#59103;" d="M512 64a32 32 0 0 1 32 32v256h256a32 32 0 0 1 0 64h-256V672a32 32 0 0 1-64 0v-256H224a32 32 0 0 1 0-64h256v-256a32 32 0 0 1 32-32"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="close" unicode="&#59113;" d="M544.448 396.8l284.576 284.576a32 32 0 0 1-45.248 45.248L499.2 442.048 214.624 726.624a32 32 0 0 1-45.248-45.248l284.576-284.576-284.576-284.576a32 32 0 0 1 45.248-45.248l284.576 284.576 284.576-284.576a31.904 31.904 0 0 1 45.248 0 32 32 0 0 1 0 45.248L544.448 396.8z"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="enter" unicode="&#59128;" d="M693.792 397.76l-320 297.664a32 32 0 0 1-43.584-46.848l295.36-274.752-295.84-286.848a31.968 31.968 0 1 1 44.544-45.92l320 310.272a31.968 31.968 0 0 1-0.48 46.4"  horiz-adv-x="1024" />
+
+    
+    <glyph glyph-name="gengduo" unicode="&#59567;" d="M298.666667 309.333333a74.666667 74.666667 0 1 0 0 149.333334 74.666667 74.666667 0 0 0 0-149.333334z m213.333333 0a74.666667 74.666667 0 1 0 0 149.333334 74.666667 74.666667 0 0 0 0-149.333334z m213.333333 0a74.666667 74.666667 0 1 0 0 149.333334 74.666667 74.666667 0 0 0 0-149.333334z"  horiz-adv-x="1024" />
+
+    
+
+
+  </font>
+</defs></svg>

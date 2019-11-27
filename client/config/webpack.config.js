@@ -162,6 +162,7 @@ module.exports = function (webpackEnv) {
             isEnvDevelopment &&
             require.resolve('react-dev-utils/webpackHotDevClient'),
             // Finally, this is your app's code:
+            paths.zepto,
             paths.appIndexJs,
             // We include the app code last so that if there is a runtime error during
             // initialization, it doesn't blow up the WebpackDevServer client, and
@@ -354,6 +355,7 @@ module.exports = function (webpackEnv) {
                         },
                     ],
                     include: paths.appSrc,
+                    exclude: [paths.zepto]
                 },
                 {
                     // "oneOf" will traverse all following loaders until one will

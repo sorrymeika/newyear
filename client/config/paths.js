@@ -34,7 +34,7 @@ const getPublicUrl = appPackageJson =>
 function getServedPath(appPackageJson) {
     const publicUrl = getPublicUrl(appPackageJson);
     const servedUrl =
-    envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/');
+        envPublicUrl || (publicUrl ? url.parse(publicUrl).pathname : '/');
     return ensureSlash(servedUrl, true);
 }
 
@@ -83,6 +83,7 @@ module.exports = {
     appNodeModules: resolveApp('node_modules'),
     publicUrl: getPublicUrl(resolveApp('package.json')),
     servedPath: getServedPath(resolveApp('package.json')),
+    zepto: resolveApp('src/zepto.js'),
 };
 
 
