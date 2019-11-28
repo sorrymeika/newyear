@@ -1,4 +1,4 @@
-<div class="app-home">
+<div class="app-main app-home">
     <h1>小黄鱼的2019年度总结</h1>
     <h2 class="flex"><div>TIMELINE</div><div class="line fx_1 bd_b"></div></h2>
     <div class="J_Days">
@@ -6,37 +6,24 @@
     <div class="mb_l">
         <button class="J_NewDay home_newday_btn"><i class="iconfont icon-add"></i> 增加2019记事</button>
     </div>
-    <div class="home_luck">
+    <div class="home_luck J_HomeLuck">
         <h2 class="flex"><div>2019运势</div><div class="line fx_1 bd_b"></div></h2>
-        <div class="J_Luck pt_m pb_m">
-        </div>
-        <div class="app-form-item pb_s">
-            <textarea class="app-text" placeholder="忍不住想说..."></textarea>
-        </div>
     </div>
     <h2 class="flex mt_xl"><div>2019健康状况</div><div class="line fx_1 bd_b"></div></h2>
     <div class="home_health">
         <div class="app-form-item home_health_sum">
-            2019年一共去了<button>0</button>次医院、得了<button>2</button>次重感冒、<button>做了1次</button>体检
+            2019年一共去了<button class="J_Hospital">0次</button>医院、<button class="J_HealthExamination">做了1次</button>体检、<button class="J_Sports">从不</button>运动
         </div>
         <div class="app-form-item">
-            <textarea class="app-text" placeholder="还好好活着..."></textarea>
+            <textarea class="J_HealthText app-text" placeholder="还好好活着..."></textarea>
         </div>
     </div>
     <div class="home_love pt_m pb_m">
         <h2 class="flex mb_m"><div>2019最爱</div><div class="line fx_1 bd_b"></div></h2>
         <div class="J_Love"></div>
-    </div>
-    <div style="display: none">
-        <div>
-            <div>2019年4月是小黄鱼一年中最开心的1个月</div>
-            <textarea placeholder="为什么？"></textarea>
+        <div class="app-form-item mb_m">
+            <textarea class="app-text" placeholder="更多..."></textarea>
         </div>
-        <div>
-            <div>2019年7月～9月是小黄鱼人生中最灰暗最痛苦的3个月</div>
-            <textarea placeholder="为什么？"></textarea>
-        </div>
-        <button>增加重要时刻</button>
     </div>
     <h2 class="flex mt_xl"><div>2019关键字</div><div class="line fx_1 bd_b"></div></h2>
     <div class="app-form-item mb_m">
@@ -47,8 +34,7 @@
         <textarea class="app-text" placeholder="结语..."></textarea>
     </div>
 </div>
-<div class="app-date-select"></div>
-<footer class="app-footer flex">
-    <button class="btn btn_light fx_1">保存</button>
-    <button class="btn fx_1">提交</button>
+<footer class="J_HomeFooter app-footer flex">
+    <button class="J_HomeSave btn btn_light fx_1">保存</button>
+    <button class="J_HomeSubmit btn fx_1">提交</button>
 </footer>

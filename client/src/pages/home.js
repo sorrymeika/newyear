@@ -1,4 +1,7 @@
 import home from './home.html';
+import DatePicker from '../components/DatePicker';
+import Luck from '../components/Luck';
+import DropDown from '../components/DropDown';
 import { compressImage, uploadFile } from '../util';
 
 const DATE_MAP = {
@@ -8,49 +11,6 @@ const DATE_MAP = {
     '2019-11-11': '双十一',
     '2020-01-01': '新篇章',
 };
-
-class Luck {
-    constructor($el) {
-        this.$el = $el;
-
-        this.months = [];
-
-        this.init();
-    }
-
-    init() {
-        for (let i = 1; i <= 12; i++) {
-            const month = this.createItem({
-                month: i,
-                luck: 50
-            });
-            this.months.push(month);
-            this.$el.append(month.$el);
-        }
-    }
-
-    createItem({
-        month,
-        luck
-    }) {
-        const $el = $(
-            `<div class="flex">
-                <div class="app-luck-month">${month}月</div>
-                <div class="fx_1 flex app-luck-item">
-                    <p class="bad">糟透了</p>
-                    <div class="fx_1 bar">
-                        <div class="progress"></div>
-                    </div>
-                    <p class="good">完美</p>
-                </div>
-            </div>`
-        );
-
-        return {
-            $el
-        };
-    }
-}
 
 class Love {
     constructor($el) {
@@ -97,6 +57,7 @@ class Love {
 class Home {
     constructor() {
         this.el = document.createElement('div');
+        this.el.className = "app-page";
         this.$el = $(this.el);
         this.el.innerHTML = home;
         this.$days = this.$el.find('.J_Days');
@@ -118,14 +79,92 @@ class Home {
         }];
         this.initDays();
 
-        this.luck = new Luck(this.$el.find('.J_Luck'));
+        this.luck = new Luck();
+        this.luck.$el.appendTo(this.$el.find('.J_HomeLuck'));
         this.love = new Love(this.$el.find('.J_Love'));
+
+        this.datePicker = new DatePicker();
+        this.datePicker.$el.appendTo(this.$el);
+
+        this.dropDown = new DropDown();
     }
 
     _registerListeners() {
         this.$el
             .on('click', '.J_NewDay', (e) => {
                 this.addNewDay();
+            })
+            .on('click', '.J_HomeSave', () => {
+                console.log(this.data);
+            })
+            .on('click', '.J_HomeSubmit', () => {
+                console.log(this.data);
+            })
+            .on('click', '.J_Hospital', (e) => {
+                this.dropDown.show({
+                    title: '就医频率',
+                    defaultValue: e.currentTarget.innerHTML,
+                    data: [{
+                        value: '0次',
+                        label: '0次'
+                    }, {
+                        value: '1~2次',
+                        label: '1~2次'
+                    }, {
+                        value: '3~5次',
+                        label: '3~5次'
+                    }, {
+                        value: '5次以上',
+                        label: '5次以上'
+                    }],
+                    onSelect(val) {
+                        e.currentTarget.innerHTML = val;
+                    }
+                });
+            })
+            .on('click', '.J_HealthExamination', (e) => {
+                this.dropDown.show({
+                    title: '体检',
+                    defaultValue: e.currentTarget.innerHTML,
+                    data: [{
+                        value: '没做',
+                        label: '没做'
+                    }, {
+                        value: '做了1次',
+                        label: '做了1次'
+                    }, {
+                        value: '做了1次以上',
+                        label: '做了1次以上'
+                    }],
+                    onSelect(val) {
+                        e.currentTarget.innerHTML = val;
+                    }
+                });
+            })
+            .on('click', '.J_Sports', (e) => {
+                this.dropDown.show({
+                    title: '运动频率',
+                    defaultValue: e.currentTarget.innerHTML,
+                    data: [{
+                        value: '每天坚持',
+                        label: '每天坚持'
+                    }, {
+                        value: '每周3~5次',
+                        label: '每周3~5次'
+                    }, {
+                        value: '每周1~2次',
+                        label: '每周1~2次'
+                    }, {
+                        value: '偶尔',
+                        label: '偶尔'
+                    }, {
+                        value: '从不',
+                        label: '从不'
+                    }],
+                    onSelect(val) {
+                        e.currentTarget.innerHTML = val;
+                    }
+                });
             });
     }
 
@@ -137,7 +176,8 @@ class Home {
         ];
 
         return {
-            days: allDays
+            days: allDays,
+            luck: this.luck.data
         };
     }
 
@@ -210,13 +250,25 @@ class Home {
         const title = !date ? '选择日期' : (DATE_MAP[date] || (date.replace(/^\d+-/, '').replace('-', '月') + '日'));
         const $el = $(
             `<div class="app-form-item home_day_form_item bd_b" data-date="${date}">
-                <div class="J_Title title"><b class="fs_l">${year}</b>年${dateChangeable ? `<button class="J_Date date">${title}</button>` : `<span>${title}</span>`}</div>
+                <div class="J_Title title"><b class="J_Year fs_l">${year}</b>年${dateChangeable ? `<button class="J_Date J_ShowDate date">${title}</button>` : `<span>${title}</span>`}</div>
                 ${closeable ? `<button class="iconfont icon-close J_Close"></button>` : ''}
             </div>`
         );
 
         $el.on('click', '.J_Close', destroy)
-            .on('click', '.J_Date', () => {
+            .on('click', '.J_Date', (e) => {
+                const $date = $(e.currentTarget);
+                const $container = $date.closest('[data-date]');
+
+                this.datePicker.show({
+                    value: $container.attr('data-date'),
+                    onOk(date) {
+                        const year = !date ? '2019' : date.split('-')[0];
+                        const title = !date ? '选择日期' : (DATE_MAP[date] || (date.replace(/^\d+-/, '').replace('-', '月') + '日'));
+                        $container.find('J_Year').html(year);
+                        $date.html(title);
+                    }
+                });
             });
 
         const $title = $el.find('.J_Title');
@@ -366,9 +418,6 @@ class Home {
                 $el.off();
             }
         };
-    }
-
-    showDateSelect() {
     }
 }
 
