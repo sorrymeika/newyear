@@ -4,7 +4,8 @@ import DatePicker from '../components/DatePicker';
 import Luck from '../components/Luck';
 import DropDown from '../components/DropDown';
 import Love from '../components/Love';
-import { compressImage, uploadFile } from '../util';
+import { compressImage, uploadFile, encodeHTML } from '../util';
+import KeywordsModal from '../components/KeywordsModal';
 
 const DATE_MAP = {
     '2019-01-01': {
@@ -60,6 +61,8 @@ class Home {
         this.love = new Love(this.$el.find('.J_Love'));
 
         this.$loveMore = this.$el.find('.J_LoveMore');
+
+        this.keywordsModal = new KeywordsModal();
 
         this.datePicker = new DatePicker();
         this.datePicker.$el.appendTo(this.$el);
@@ -155,6 +158,30 @@ class Home {
                         e.currentTarget.innerHTML = val;
                     }
                 });
+            })
+            .on('click', '.J_Keywords', () => {
+                this.keywordsModal.show({
+                    tags: [
+                        '开心',
+                        '健康',
+                        '吃货',
+                        '旅游',
+                        '正能量',
+                        '胖',
+                        '减肥',
+                        '健身',
+                        '寒冬',
+                        '低谷',
+                        '剁手',
+                    ],
+                    data: this.keywords,
+                    onConfirm: (keywords) => {
+                        this.setKeywords({
+                            ...keywords,
+                            set: true
+                        });
+                    }
+                });
             });
     }
 
@@ -175,7 +202,8 @@ class Home {
                 healthExamination: this.$el.find('.J_HealthExamination').html(),
                 sports: this.$el.find('.J_Sports').html(),
                 hospital: this.$el.find('.J_Hospital').html(),
-            }
+            },
+            keywords: this.keywords
         };
     }
 
@@ -185,6 +213,7 @@ class Home {
         love,
         health,
         loveMore,
+        keywords,
         summary
     }) {
         const firstDay = days.shift();
@@ -205,6 +234,8 @@ class Home {
         this.$el.find('.J_HealthExamination').html(healthExamination || '0次');
         this.$el.find('.J_Sports').html(sports || '做了1次');
         this.$el.find('.J_Hospital').html(hospital || '从不');
+
+        this.setKeywords(keywords);
     }
 
     initDays() {
@@ -463,6 +494,29 @@ class Home {
             destroy() {
                 $el.off();
             }
+        };
+    }
+
+    setKeywords({
+        tags = [],
+        moreTags = ''
+    } = {}) {
+        const $moreKeywords = this.$el.find('.J_MoreKeywords');
+        $moreKeywords.siblings()
+            .remove();
+
+        const keywords = tags.concat(moreTags.split(/[,，]/))
+            .filter(tag => !!tag)
+            .map((tag) => {
+                return `<div class="home_keywords_item">${encodeHTML(tag)}</div>`;
+            });
+
+        $moreKeywords.html(tags.length == 0 ? '选择我的2019关键字...' : '更多...')
+            .before(keywords.join(''));
+
+        this.keywords = {
+            tags,
+            moreTags
         };
     }
 }

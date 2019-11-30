@@ -62,8 +62,21 @@
 .app-love-modal .tags li.curr { display: inline-block; background: #f23030; color: #fff; padding: 2px 8px; font-size: 13px; border-radius: 4px; margin-right: 5px; }
 .app-love-modal .app-text { height: 60px; }
 
-.app-love-content span { display: inline-block; background: #eee; color: #666; border-radius: 4px; padding: 2px 4px; margin-right: 4px; }
+.app-love-content span { display: inline-block; background: #eee; color: #666; border-radius: 4px; padding: 2px 4px; margin-left: 4px; font-size: 13px; }
 .app-love-content code { white-space: nowrap; display: block; }
+
+
+.app-keywords-modal { position: absolute; bottom: 0; left: 0; right: 0; top: 0; background: rgba(0, 0, 0, 0.5); z-index: 10000; }
+.app-keywords-modal-con { height: 250px; background: #f4f4f4; border-radius: 10px; width: 90%; max-width: 375px; position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); }
+.app-keywords-modal-scroll { padding: 10px; padding-bottom: 50px; width: 100%; height: 100%; }
+.app-keywords-modal-footer { height: 40px; text-align: right; position: absolute; bottom: 0; left: 0; width: 100%; padding: 6px 10px; background: #f4f4f4; border-radius: 10px; }
+.app-keywords-modal-footer .btn_confirm { background: #f23030; border-radius: 4px; height: 26px; padding: 0 10px; color: #fff; }
+.app-keywords-modal-footer .btn_cancel { border: 1px solid #f23030; border-radius: 4px; height: 26px; padding: 0 10px; color: #f23030; margin-right: 5px; }
+.app-keywords-modal-title { font-size: 18px; text-align: center; }
+.app-keywords-modal .tags { padding: 10px; }
+.app-keywords-modal .tags li { display: inline-block; background: #e8e8e8; color: #666; padding: 2px 6px; font-size: 13px; border-radius: 4px; margin-right: 5px; margin-bottom: 4px; }
+.app-keywords-modal .tags li.curr { display: inline-block; background: #f23030; color: #fff; padding: 2px 8px; font-size: 13px; border-radius: 4px; margin-right: 5px; }
+.app-keywords-modal .app-text { height: 60px; }
 
 .home_day_form_item { position: relative; }
 .home_day_form_item .icon-close { position: absolute; right: 0; top: 0; z-index: 101; }
