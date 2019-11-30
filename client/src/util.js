@@ -4,6 +4,15 @@ export function pad(num, n) {
     return a.substr(a.length - (n || 2));
 }
 
+const nodeWrap = document.createElement("div");
+const node = document.createTextNode("");
+nodeWrap.appendChild(node);
+
+export function encodeHTML(text) {
+    node.nodeValue = '' + text;
+    return nodeWrap.innerHTML;
+}
+
 /**
  * date 转 string
  *

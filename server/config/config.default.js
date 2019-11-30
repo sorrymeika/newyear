@@ -11,7 +11,7 @@ exports.mysql = {
         // 密码
         password: '12345Qwert',
         // 数据库名
-        database: 'sn_project',
+        database: 'newyear',
     },
     // 是否加载到 app 上，默认开启
     app: true,
@@ -19,15 +19,22 @@ exports.mysql = {
     agent: false,
 };
 
-exports.keys = 'my-cookie-secret-key';
+exports.redis = {
+    client: {
+        port: 6379,
+        host: '127.0.0.1'
+    },
+};
+
+exports.keys = 'newyear-cookie-secret-key';
 
 exports.logger = {
     level: 'INFO',
-    dir: '/data/logs/sn-project'
+    dir: '/data/logs/newyear'
 };
 
 exports.security = {
-    domainWhiteList: ['http://localhost:10024'],
+    domainWhiteList: ['http://localhost:3000'],
     csrf: {
         enable: false
     }

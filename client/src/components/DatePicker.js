@@ -65,6 +65,9 @@ export default class DatePicker {
             .on('click', '.J_ConfirmDate', async (e) => {
                 this.props.onOk && await this.props.onOk(this.value);
                 this.hide();
+            })
+            .on('click', '.J_HideDateModal', () => {
+                this.hide();
             });
     }
 

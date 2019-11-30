@@ -1,58 +1,33 @@
 import home from './home.html';
+import toast from '../components/toast';
 import DatePicker from '../components/DatePicker';
 import Luck from '../components/Luck';
 import DropDown from '../components/DropDown';
+import Love from '../components/Love';
 import { compressImage, uploadFile } from '../util';
 
 const DATE_MAP = {
-    '2019-01-01': '新年第一天',
-    '2019-02-14': '情人节',
-    '2019-10-01': '国庆假期',
-    '2019-11-11': '双十一',
-    '2020-01-01': '新篇章',
+    '2019-01-01': {
+        name: '新年第一天',
+        placeholder: '和谁在哪里度过的?'
+    },
+    '2019-02-14': {
+        name: '情人节',
+        placeholder: '做了些什么?'
+    },
+    '2019-10-01': {
+        name: '国庆假期',
+        placeholder: '是怎样度过的?'
+    },
+    '2019-11-11': {
+        name: '双十一',
+        placeholder: '是怎样度过的?'
+    },
+    '2020-01-01': {
+        name: '新篇章',
+        placeholder: '如何迎接新的一年...'
+    },
 };
-
-class Love {
-    constructor($el) {
-        this.$el = $el;
-
-        this.loves = [];
-        this.init();
-    }
-
-    init() {
-        const loves = [{
-            placeholder: '看了哪些电影？其中最爱？'
-        }, {
-            placeholder: '读了哪些书？其中最爱？'
-        }, {
-            placeholder: '看了哪些综艺节目？其中最爱？'
-        }, {
-            placeholder: '看了哪些电视剧？其中最爱？'
-        }, {
-            placeholder: '去了哪些地方？'
-        }];
-
-        this.loves = loves.map((data) => {
-            const love = this.createLove(data);
-            this.$el.append(love.$el);
-            return love;
-        });
-    }
-
-    createLove({ placeholder }) {
-        const $el = $(
-            `<div class="app-card flex home_love_item">
-                <p class="J_Content fx_1">${placeholder}</p>
-                <i class="iconfont icon-enter"></i>
-            </div>`
-        );
-
-        return {
-            $el
-        };
-    }
-}
 
 class Home {
     constructor() {
@@ -62,6 +37,7 @@ class Home {
         this.el.innerHTML = home;
         this.$days = this.$el.find('.J_Days');
         this.$moments = this.$el.find('.J_Moments');
+        this.$summary = this.$el.find('.J_Summary');
         this._registerListeners();
 
         this.defaultDays = [{
@@ -83,10 +59,23 @@ class Home {
         this.luck.$el.appendTo(this.$el.find('.J_HomeLuck'));
         this.love = new Love(this.$el.find('.J_Love'));
 
+        this.$loveMore = this.$el.find('.J_LoveMore');
+
         this.datePicker = new DatePicker();
         this.datePicker.$el.appendTo(this.$el);
 
         this.dropDown = new DropDown();
+
+        this.initData();
+    }
+
+    initData() {
+        const summary2019 = localStorage.getItem('2019summary');
+        if (summary2019) {
+            const data = JSON.parse(summary2019);
+            console.log(data);
+            this.set(data);
+        }
     }
 
     _registerListeners() {
@@ -95,7 +84,8 @@ class Home {
                 this.addNewDay();
             })
             .on('click', '.J_HomeSave', () => {
-                console.log(this.data);
+                localStorage.setItem('2019summary', JSON.stringify(this.data));
+                toast.showToast('保存成功!');
             })
             .on('click', '.J_HomeSubmit', () => {
                 console.log(this.data);
@@ -177,29 +167,62 @@ class Home {
 
         return {
             days: allDays,
-            luck: this.luck.data
+            luck: this.luck.data,
+            love: this.love.data,
+            loveMore: this.$loveMore.val(),
+            summary: this.$summary.val(),
+            health: {
+                healthExamination: this.$el.find('.J_HealthExamination').html(),
+                sports: this.$el.find('.J_Sports').html(),
+                hospital: this.$el.find('.J_Hospital').html(),
+            }
         };
+    }
+
+    set({
+        days,
+        luck,
+        love,
+        health,
+        loveMore,
+        summary
+    }) {
+        const firstDay = days.shift();
+        const lastDay = days.pop();
+
+        this.firstDay.set(firstDay);
+        this.days.set(days);
+        this.newYearFirstDay.set(lastDay);
+
+        this.luck.set(luck);
+
+        this.love.set(love);
+        this.$loveMore.val(loveMore || '');
+        this.$summary.val(summary || '');
+
+        const { healthExamination, sports, hospital } = health || {};
+
+        this.$el.find('.J_HealthExamination').html(healthExamination || '0次');
+        this.$el.find('.J_Sports').html(sports || '做了1次');
+        this.$el.find('.J_Hospital').html(hospital || '从不');
     }
 
     initDays() {
         this.firstDay = this.createDay({
             closeable: false,
             dateChangeable: false,
-            date: '2019-01-01',
-            placeholder: '和谁在哪里度过的?'
+            date: '2019-01-01'
         });
         this.firstDay.$el.insertBefore(this.$days);
 
         this.days = this.createDays({
             days: this.defaultDays
         });
-        this.$days.append(this.days.fragment);
 
         this.newYearFirstDay = this.createDay({
             dateChangeable: false,
             closeable: false,
             date: '2020-01-01',
-            placeholder: '如何迎接新的一年...'
         });
         this.newYearFirstDay.$el.insertAfter(this.$days);
     }
@@ -207,21 +230,31 @@ class Home {
     createDays({
         days
     }) {
-        const fragment = document.createDocumentFragment();
-        const components = days.map((data) => {
-            const day = this.createDay({
-                ...data,
-                closeable: true,
-                dateChangeable: true
+        let components;
+        const render = (days) => {
+            const fragment = document.createDocumentFragment();
+            components = days.map((data) => {
+                const day = this.createDay({
+                    ...data,
+                    closeable: true,
+                    dateChangeable: true
+                });
+                day.$el.appendTo(fragment);
+                return day;
             });
-            day.$el.appendTo(fragment);
-            return day;
-        });
+            this.$days.append(fragment);
+        };
+
+        render(days);
 
         return {
-            fragment,
+            $el: this.$days,
             get data() {
                 return components.map(item => item.data);
+            },
+            set: (days) => {
+                this.$days.html('');
+                render(days);
             }
         };
     }
@@ -230,7 +263,6 @@ class Home {
         const newDay = this.createDay({
             closeable: true,
             dateChangeable: true,
-            placeholder: '发生了什么...'
         });
         this.$days.append(newDay.$el);
     }
@@ -239,34 +271,25 @@ class Home {
         date,
         content,
         images,
-        placeholder,
         dateChangeable,
         closeable
     }) {
-        let data = {
-            date,
-        };
+        const placeholder = DATE_MAP[date] ? DATE_MAP[date].placeholder : '发生了什么...';
         const year = !date ? '2019' : date.split('-')[0];
-        const title = !date ? '选择日期' : (DATE_MAP[date] || (date.replace(/^\d+-/, '').replace('-', '月') + '日'));
+        const title = !date ? '选择日期' : (DATE_MAP[date] ? DATE_MAP[date].name : (date.replace(/^\d+-/, '').replace('-', '月') + '日'));
         const $el = $(
             `<div class="app-form-item home_day_form_item bd_b" data-date="${date}">
-                <div class="J_Title title"><b class="J_Year fs_l">${year}</b>年${dateChangeable ? `<button class="J_Date J_ShowDate date">${title}</button>` : `<span>${title}</span>`}</div>
+                <div class="J_Title title"><b class="J_Year fs_l">${year}</b>年${dateChangeable ? `<button class="J_Date J_ShowDate date">${title}</button>` : `<span class="J_ShowDate">${title}</span>`}</div>
                 ${closeable ? `<button class="iconfont icon-close J_Close"></button>` : ''}
             </div>`
         );
 
         $el.on('click', '.J_Close', destroy)
             .on('click', '.J_Date', (e) => {
-                const $date = $(e.currentTarget);
-                const $container = $date.closest('[data-date]');
-
                 this.datePicker.show({
-                    value: $container.attr('data-date'),
+                    value: $el.attr('data-date'),
                     onOk(date) {
-                        const year = !date ? '2019' : date.split('-')[0];
-                        const title = !date ? '选择日期' : (DATE_MAP[date] || (date.replace(/^\d+-/, '').replace('-', '月') + '日'));
-                        $container.find('J_Year').html(year);
-                        $date.html(title);
+                        setDate(date);
                     }
                 });
             });
@@ -285,6 +308,17 @@ class Home {
         $title.after(textArea.$el);
         textArea.$el.after(imageUpload.$el);
 
+        function setDate(date) {
+            $el.attr('data-date', date);
+            const year = !date ? '2019' : date.split('-')[0];
+            const title = !date ? '选择日期' : (DATE_MAP[date] ? DATE_MAP[date].name : (date.replace(/^\d+-/, '').replace('-', '月') + '日'));
+            $el.find('J_Year').html(year);
+            $el.find('.J_ShowDate').html(title);
+
+            const placeholder = DATE_MAP[date] ? DATE_MAP[date].placeholder : '发生了什么...';
+            textArea.$el.attr('placeholder', placeholder);
+        }
+
         function remove() {
             $el.remove();
         }
@@ -298,10 +332,15 @@ class Home {
             $el,
             get data() {
                 return {
-                    ...data,
+                    date: $el.attr('data-date'),
                     content: textArea.data,
                     images: imageUpload.data
                 };
+            },
+            set({ date, content, images }) {
+                textArea.set(content);
+                imageUpload.set(images);
+                setDate(date);
             },
             remove,
             destroy
@@ -322,6 +361,9 @@ class Home {
             $el,
             get data() {
                 return $el.val();
+            },
+            set(val) {
+                $el.val(val);
             }
         };
     }
@@ -350,7 +392,7 @@ class Home {
                         <button class="J_DeleteFile iconfont icon-close"></button>
                     </div>`
                 );
-            }).join(',');
+            }).join('');
 
             $uploadBtn.before(html);
         }
@@ -395,7 +437,6 @@ class Home {
                             });
                     });
                 }
-
             })
             .on('click', '.J_DeleteFile', (e) => {
                 const $item = $(e.currentTarget).closest('[data-key]');
@@ -413,6 +454,11 @@ class Home {
             $el,
             get data() {
                 return data;
+            },
+            set(images) {
+                $uploadBtn.siblings().remove();
+                addImages(images);
+                data = [...images];
             },
             destroy() {
                 $el.off();

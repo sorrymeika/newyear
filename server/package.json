@@ -1,17 +1,13 @@
 {
-  "name": "sn-project-server",
+  "name": "newyear-server",
   "version": "0.0.1",
-  "description": "super engine project server",
+  "description": "newyear",
   "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/sorrymeika/sn-project-server.git"
-  },
   "author": "sunlu",
   "bugs": {
-    "url": "https://github.com/sorrymeika/sn-project-server/issues"
+    "url": "https://github.com/sorrymeika/newyear/issues"
   },
-  "homepage": "https://github.com/sorrymeika/sn-project-server#readme",
+  "homepage": "https://github.com/sorrymeika/newyear#readme",
   "devDependencies": {
     "egg-bin": "^4.13.1"
   },
@@ -21,10 +17,12 @@
     "egg-logger": "^2.4.1",
     "egg-logrotator": "^3.1.0",
     "egg-mysql": "^3.0.0",
+    "egg-redis": "^2.4.0",
     "egg-scripts": "^2.11.1",
     "egg-validate": "^2.0.2",
     "eslint": "^6.3.0",
-    "koa-compress": "^3.0.0"
+    "koa-compress": "^3.0.0",
+    "tencentcloud-sdk-nodejs": "^3.0.103"
   },
   "scripts": {
     "dev": "egg-bin dev --port 7008",
