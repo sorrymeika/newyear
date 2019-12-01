@@ -1,11 +1,14 @@
 import home from './home.html';
+
+import { compressImage, uploadFile, encodeHTML, post } from '../util';
+
 import toast from '../components/toast';
 import DatePicker from '../components/DatePicker';
 import Luck from '../components/Luck';
 import DropDown from '../components/DropDown';
 import Love from '../components/Love';
-import { compressImage, uploadFile, encodeHTML } from '../util';
 import KeywordsModal from '../components/KeywordsModal';
+import LoginModal from '../components/LoginModal';
 
 const DATE_MAP = {
     '2019-01-01': {
@@ -69,14 +72,36 @@ class Home {
 
         this.dropDown = new DropDown();
 
+        this.loginModal = new LoginModal();
+
+        this.isLogin = false;
+    }
+
+    initialize() {
         this.initData();
     }
 
-    initData() {
+    async initData() {
+        post('/getYear')
+            .then((res) => {
+                if (res.data) {
+                    this.set(JSON.parse(res.data.content));
+                } else {
+                    this._loadDataFromStorage();
+                }
+                this.userId = res.userId;
+                this.isLogin = true;
+            })
+            .catch(e => {
+                this.isLogin = false;
+                this._loadDataFromStorage();
+            });
+    }
+
+    _loadDataFromStorage() {
         const summary2019 = localStorage.getItem('2019summary');
         if (summary2019) {
             const data = JSON.parse(summary2019);
-            console.log(data);
             this.set(data);
         }
     }
@@ -86,11 +111,33 @@ class Home {
             .on('click', '.J_NewDay', (e) => {
                 this.addNewDay();
             })
-            .on('click', '.J_HomeSave', () => {
-                localStorage.setItem('2019summary', JSON.stringify(this.data));
+            .on('click', '.J_HomeSave', async () => {
+                if (this.isLogin) {
+                    try {
+                        await post('setYear', {
+                            content: JSON.stringify(this.data)
+                        });
+                    } catch (e) {
+                        toast.showToast(e.message || '网络错误!');
+                        return;
+                    }
+                } else {
+                    localStorage.setItem('2019summary', JSON.stringify(this.data));
+                }
                 toast.showToast('保存成功!');
             })
             .on('click', '.J_HomeSubmit', () => {
+                if (this.isLogin) {
+                    this.submit();
+                } else {
+                    toast.showToast('请先登录!');
+                    this.loginModal.show({
+                        onConfirm: (user) => {
+                            this.userId = user.id;
+                            this.submit();
+                        }
+                    });
+                }
                 console.log(this.data);
             })
             .on('click', '.J_Hospital', (e) => {
@@ -207,6 +254,18 @@ class Home {
         };
     }
 
+    async submit() {
+        try {
+            await post('setYear', {
+                content: JSON.stringify(this.data)
+            });
+            toast.showToast('提交成功!');
+            location.hash = '/2019/' + this.userId;
+        } catch (e) {
+            toast.showToast(e.message || '网络错误!');
+        }
+    }
+
     set({
         days,
         luck,
@@ -231,9 +290,9 @@ class Home {
 
         const { healthExamination, sports, hospital } = health || {};
 
-        this.$el.find('.J_HealthExamination').html(healthExamination || '0次');
-        this.$el.find('.J_Sports').html(sports || '做了1次');
-        this.$el.find('.J_Hospital').html(hospital || '从不');
+        this.$el.find('.J_Hospital').html(hospital || '0次');
+        this.$el.find('.J_HealthExamination').html(healthExamination || '做了1次');
+        this.$el.find('.J_Sports').html(sports || '从不');
 
         this.setKeywords(keywords);
     }
