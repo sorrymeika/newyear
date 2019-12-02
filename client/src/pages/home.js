@@ -91,10 +91,12 @@ class Home {
                 }
                 this.userId = res.userId;
                 this.isLogin = true;
+                this.$el.find('.J_LoginBtn').hide();
             })
             .catch(e => {
                 this.isLogin = false;
                 this._loadDataFromStorage();
+                this.$el.find('.J_LoginBtn').show();
             });
     }
 
@@ -108,6 +110,14 @@ class Home {
 
     _registerListeners() {
         this.$el
+            .on('click', '.J_LoginBtn', () => {
+                this.loginModal.show({
+                    onConfirm: (user) => {
+                        this.userId = user.id;
+                        this.initData();
+                    }
+                });
+            })
             .on('input', '.app-text', (e) => {
                 const el = e.currentTarget;
                 if (el.scrollHeight > el.clientHeight) {

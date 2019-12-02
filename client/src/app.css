@@ -29,6 +29,8 @@
 .app-dropdown-item { padding: 10px 0; }
 .app-dropdown-item.curr { color: #f23030; font-weight: bold; }
 
+.login-btn {  background: #f23030; border-radius: 4px; height: 26px; padding: 0 10px; color: #fff; }
+
 .app-home { padding-bottom: 50px; }
 .app-home h1 { font-size: 24px; padding: 10px; }
 .app-home h2 { font-size: 18px; padding: 0 10px; color: #aaa; }
