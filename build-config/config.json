@@ -19,6 +19,12 @@
             }
         ],
         [
+            "npm stop",
+            {
+                "cwd": "./server"
+            }
+        ],
+        [
             "npm start",
             {
                 "cwd": "./server"
