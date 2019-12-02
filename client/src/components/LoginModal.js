@@ -12,7 +12,7 @@ export default class LoginModal {
                     <div class="app-modal-scroll ofy_s">
                         <div class="app-modal-title pb_m">用户登录</div>
                         <div class="app-login-form-item flex">
-                            <input class="J_Mobile fx_1" placeholder="手机号" value="18721979478" />
+                            <input class="J_Mobile fx_1" placeholder="手机号" value="" />
                         </div>
                         <div class="app-login-form-item flex">
                             <input class="J_VerifyCode fx_1" type="text" placeholder="验证码" style="width: 100px" />
