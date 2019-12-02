@@ -11,6 +11,9 @@
 # production
 /dist
 
+config.local.js
+config.prod.js
+
 # misc
 .DS_Store
 .env.local

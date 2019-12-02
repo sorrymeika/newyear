@@ -108,13 +108,19 @@ class Home {
 
     _registerListeners() {
         this.$el
+            .on('input', '.app-text', (e) => {
+                const el = e.currentTarget;
+                if (el.scrollHeight > el.clientHeight) {
+                    el.style.height = el.scrollHeight + 'px';
+                }
+            })
             .on('click', '.J_NewDay', (e) => {
                 this.addNewDay();
             })
             .on('click', '.J_HomeSave', async () => {
                 if (this.isLogin) {
                     try {
-                        await post('setYear', {
+                        await post('/setYear', {
                             content: JSON.stringify(this.data)
                         });
                     } catch (e) {
@@ -249,6 +255,7 @@ class Home {
                 healthExamination: this.$el.find('.J_HealthExamination').html(),
                 sports: this.$el.find('.J_Sports').html(),
                 hospital: this.$el.find('.J_Hospital').html(),
+                content: this.$el.find('.J_HealthText').val(),
             },
             keywords: this.keywords
         };
@@ -256,7 +263,7 @@ class Home {
 
     async submit() {
         try {
-            await post('setYear', {
+            await post('/setYear', {
                 content: JSON.stringify(this.data)
             });
             toast.showToast('提交成功!');
@@ -288,13 +295,20 @@ class Home {
         this.$loveMore.val(loveMore || '');
         this.$summary.val(summary || '');
 
-        const { healthExamination, sports, hospital } = health || {};
+        const { healthExamination, sports, hospital, content } = health || {};
 
         this.$el.find('.J_Hospital').html(hospital || '0次');
         this.$el.find('.J_HealthExamination').html(healthExamination || '做了1次');
         this.$el.find('.J_Sports').html(sports || '从不');
+        this.$el.find('.J_HealthText').val(content || '');
 
         this.setKeywords(keywords);
+
+        this.$el.find('.app-text').each((i, el) => {
+            if (el.scrollHeight > el.clientHeight) {
+                el.style.height = el.scrollHeight + 'px';
+            }
+        });
     }
 
     initDays() {
@@ -345,6 +359,9 @@ class Home {
             set: (days) => {
                 this.$days.html('');
                 render(days);
+            },
+            add(newDay) {
+                components.push(newDay);
             }
         };
     }
@@ -355,6 +372,7 @@ class Home {
             dateChangeable: true,
         });
         this.$days.append(newDay.$el);
+        this.days.add(newDay);
     }
 
     createDay({

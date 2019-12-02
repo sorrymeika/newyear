@@ -1,0 +1,34 @@
+{
+    "buildCommands": [
+        [
+            "npm install",
+            {
+                "cwd": "./client"
+            }
+        ],
+        [
+            "npm run build",
+            {
+                "cwd": "./client"
+            }
+        ],
+        [
+            "npm install",
+            {
+                "cwd": "./server"
+            }
+        ],
+        [
+            "npm start",
+            {
+                "cwd": "./server"
+            }
+        ]
+    ],
+    "autoConfig": [
+        {
+            "template": ".env.vm",
+            "destFile": "./client/.env"
+        }
+    ]
+}

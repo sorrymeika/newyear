@@ -54,6 +54,13 @@ class Show {
                         this.initKeywords(data.keywords);
                         this.initLuck(data.luck);
 
+                        const { healthExamination, sports, hospital } = data.health;
+                        this.$el.find('.J_Hospital').html(hospital);
+                        this.$el.find('.J_Sports').html(sports);
+                        this.$el.find('.J_HealthExamination').html(healthExamination);
+
+                        this.$el.find('.J_HealthText').html(encodeContent(data.health.content));
+
                         const days = data.days.map((day) => this.createDayItem(day)).join('');
                         this.$el.find('.J_Days').html(days);
                     }
@@ -101,7 +108,7 @@ class Show {
         const year = !date ? '2019' : date.split('-')[0];
         const title = !date ? '选择日期' : (DATE_MAP[date] ? DATE_MAP[date].name : (date.replace(/^\d+-/, '').replace('-', '月') + '日'));
         return (
-            `<div class="app-form-item home_day_form_item bd_b" data-date="${date}">
+            `<div class="app-form-item home_day_form_item" data-date="${date}">
                 <div class="J_Title title"><b class="J_Year fs_l">${year}</b>年<em class="J_ShowDate">${title}</em></div>
                 <div class="app-day-content">${encodeContent(content)}</div>
                 <div class="app-day-images">${images.map((img) => `<img class="app-day-img" src="${process.env.REACT_APP_SFS_URL}${img.src}" />`)}</div>

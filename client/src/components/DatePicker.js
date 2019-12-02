@@ -81,11 +81,13 @@ export default class DatePicker {
         this.$el.show();
         const el = this.$el.find('[data-date="' + date + '"]')[0];
 
-        setTimeout(() => {
-            if (el.getBoundingClientRect().top < 0 || el.getBoundingClientRect().top > this.$container[0].clientHeight) {
-                this.$el.find('.J_DateScroll')[0].scrollTop = el.offsetTop - 60;
-            }
-        }, 0);
+        if (el) {
+            setTimeout(() => {
+                if (el.getBoundingClientRect().top < 0 || el.getBoundingClientRect().top > this.$container[0].clientHeight) {
+                    this.$el.find('.J_DateScroll')[0].scrollTop = el.offsetTop - 60;
+                }
+            }, 0);
+        }
     }
 
     hide() {

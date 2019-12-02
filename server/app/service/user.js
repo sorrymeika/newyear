@@ -22,7 +22,8 @@ class UserService extends Service {
 
         await this.app.redis.set('ny:vc:' + mobile, JSON.stringify([Date.now(), verifyCode, 0]), 'EX', 60 * 3);
         console.log(mobile, ':', verifyCode);
-        return { success: true };
+
+        return await this.sendSms(mobile, verifyCode);
     }
 
     async login(mobile, verifyCode) {
@@ -167,7 +168,7 @@ class UserService extends Service {
         const ClientProfile = tencentcloud.common.ClientProfile;
         const HttpProfile = tencentcloud.common.HttpProfile;
 
-        let cred = new Credential("", "");
+        let cred = new Credential(this.config.tencentcloud.SecretId, this.config.tencentcloud.SecretKey);
         let httpProfile = new HttpProfile();
         httpProfile.endpoint = "sms.tencentcloudapi.com";
         let clientProfile = new ClientProfile();
@@ -176,16 +177,21 @@ class UserService extends Service {
 
         let req = new models.SendSmsRequest();
 
-        let params = `{"PhoneNumberSet":["${mobile}"],"TemplateID":"485975","Sign":"big1024","TemplateParamSet":["${verifyCodeStr}"],"SmsSdkAppid":"1400292241"}`;
+        let params = `{"PhoneNumberSet":["86${mobile}"],"TemplateID":"485975","Sign":"big1024","TemplateParamSet":["${verifyCodeStr}"],"SmsSdkAppid":"1400292241"}`;
         req.from_json_string(params);
 
-        client.SendSms(req, function (errMsg, response) {
-            if (errMsg) {
-                console.log(errMsg);
-                return;
-            }
+        return new Promise((resolve) => {
+            client.SendSms(req, function (errMsg, response) {
+                if (errMsg) {
+                    console.log(errMsg);
+                    resolve({ success: false, message: errMsg });
+                    return;
+                }
 
-            console.log(response.to_json_string());
+                const result = response.to_json_string();
+                console.log(result);
+                resolve({ success: true, data: result });
+            });
         });
     }
 }

@@ -1,8 +1,9 @@
 const { Controller } = require("egg");
 
 class TestController extends Controller {
-    home() {
+    async home() {
         const { ctx } = this;
+        // ctx.body = await this.ctx.service.user.sendSms('18721979478', 666666);
         ctx.body = 'Hello world!';
     }
 }
