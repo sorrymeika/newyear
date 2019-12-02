@@ -119,12 +119,15 @@ export function compressImage(imageFile, quality, cb) {
             });
         }
 
+        const width = Math.max(750, image.width);
+        const height = image.width == width ? image.height : Math.round(image.height * (width / image.width));
+
         var canvas = document.createElement('canvas');
-        canvas.width = image.width;
-        canvas.height = image.height;
+        canvas.width = width;
+        canvas.height = height;
 
         var context = canvas.getContext('2d');
-        context.drawImage(image, 0, 0, image.width, image.height);
+        context.drawImage(image, 0, 0, image.width, image.height, 0, 0, width, height);
         canvas.toBlob(cb, 'image/jpeg', quality);
     };
     reader.readAsDataURL(imageFile);
@@ -230,3 +233,11 @@ export function post(url, payload) {
         xhr.send(payload == null ? null : JSON.stringify(payload));
     });
 };
+
+export function completeSfsUrl(src, size, quantity = '80') {
+    return !src
+        ? null
+        : /^(https?:)?\/\//.test(src)
+            ? src
+            : ((process.env.REACT_APP_SFS_URL + src) + '&o=' + [size, quantity].filter((o) => !!o).join(','));
+}

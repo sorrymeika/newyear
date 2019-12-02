@@ -29,7 +29,7 @@
 .app-dropdown-item { padding: 10px 0; }
 .app-dropdown-item.curr { color: #f23030; font-weight: bold; }
 
-.login-btn {  background: #f23030; border-radius: 4px; height: 26px; padding: 0 10px; color: #fff; }
+.login-btn { background: #f23030; border-radius: 4px; height: 26px; padding: 0 10px; color: #fff; }
 
 .app-home { padding-bottom: 50px; }
 .app-home h1 { font-size: 24px; padding: 10px; }
@@ -42,9 +42,9 @@
 .app-content-con { color: #666; }
 
 .app-day-content { padding: 10px 0; font-size: 13px; line-height: 22px; }
-.app-day-images { padding-bottom: 15px; }
+.app-day-images { padding-bottom: 10px; }
 .app-day-img { display: block; width: 100%; }
-.app-day-img~.app-day-img { margin-top: 15px; }
+.app-day-img~.app-day-img { margin-top: 10px; }
 
 .app-show .app-form-item .title { margin-bottom: 0; padding-top: 5px; }
 
@@ -84,7 +84,7 @@
 .app-love-modal .tags li.curr { display: inline-block; background: #f23030; color: #fff; padding: 2px 8px; font-size: 13px; border-radius: 4px; margin-right: 5px; }
 .app-love-modal .app-text { height: 60px; }
 
-.app-love-content span { display: inline-block; background: #eee; color: #666; border-radius: 4px; padding: 2px 4px; margin-left: 4px; font-size: 13px; }
+.app-love-content span { display: inline-block; background: #eee; color: #666; border-radius: 4px; padding: 2px 4px; margin-left: 4px; margin-top: 4px; font-size: 13px; }
 .app-love-content code { white-space: nowrap; display: block; }
 
 .app-keywords-modal { position: absolute; bottom: 0; left: 0; right: 0; top: 0; background: rgba(0, 0, 0, 0.5); z-index: 10000; }

@@ -1,5 +1,5 @@
 import show from './show.html';
-import { post, encodeHTML } from '../util';
+import { post, encodeHTML, completeSfsUrl } from '../util';
 
 function encodeContent(text) {
     return encodeHTML(text)
@@ -111,7 +111,7 @@ class Show {
             `<div class="app-form-item home_day_form_item" data-date="${date}">
                 <div class="J_Title title"><b class="J_Year fs_l">${year}</b>年<em class="J_ShowDate">${title}</em></div>
                 <div class="app-day-content">${encodeContent(content)}</div>
-                <div class="app-day-images">${images.map((img) => `<img class="app-day-img" src="${process.env.REACT_APP_SFS_URL}${img.src}" />`)}</div>
+                <div class="app-day-images">${images.map((img) => `<img class="app-day-img" src="${completeSfsUrl(img.src)}" />`).join('')}</div>
             </div>`
         );
     }

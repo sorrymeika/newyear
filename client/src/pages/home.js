@@ -1,6 +1,6 @@
 import home from './home.html';
 
-import { compressImage, uploadFile, encodeHTML, post } from '../util';
+import { compressImage, uploadFile, encodeHTML, post, completeSfsUrl } from '../util';
 
 import toast from '../components/toast';
 import DatePicker from '../components/DatePicker';
@@ -506,7 +506,7 @@ class Home {
                 return (
                     `<div data-key="${img.src}" class="app-upload-item app-upload">
                         <input class="J_FileReplace" type="file" accept="image/*" />
-                        <img src="${process.env.REACT_APP_SFS_URL + img.src}" />
+                        <img src="${completeSfsUrl(img.src, '200x200')}" />
                         <button class="J_DeleteFile iconfont icon-close"></button>
                     </div>`
                 );
@@ -550,7 +550,7 @@ class Home {
                             .then((res) => {
                                 $item.attr("data-key", res.fileName);
                                 data[index].src = res.fileName;
-                                $item.find('img').attr('src', process.env.REACT_APP_SFS_URL + res.fileName);
+                                $item.find('img').attr('src', completeSfsUrl(res.fileName, '200x200'));
                                 onChange && onChange(data);
                             });
                     });
