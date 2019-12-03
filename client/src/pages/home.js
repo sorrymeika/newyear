@@ -9,6 +9,7 @@ import DropDown from '../components/DropDown';
 import Love from '../components/Love';
 import KeywordsModal from '../components/KeywordsModal';
 import LoginModal from '../components/LoginModal';
+import NickNameModal from '../components/NickNameModal';
 
 const DATE_MAP = {
     '2019-01-01': {
@@ -74,6 +75,8 @@ class Home {
 
         this.loginModal = new LoginModal();
 
+        this.nickNameModal = new NickNameModal();
+
         this.isLogin = false;
     }
 
@@ -85,6 +88,7 @@ class Home {
         post('/getYear')
             .then((res) => {
                 if (res.data) {
+                    this.setNickName(res.data.nickName);
                     this.set(JSON.parse(res.data.content));
                 } else {
                     this._loadDataFromStorage();
@@ -92,12 +96,26 @@ class Home {
                 this.userId = res.userId;
                 this.isLogin = true;
                 this.$el.find('.J_LoginBtn').hide();
+
+                if (!res.data || !res.data.nickName) {
+                    this.nickNameModal.show({
+                        onConfirm: (nickName) => {
+                            this.setNickName(nickName);
+                        }
+                    });
+                }
             })
             .catch(e => {
                 this.isLogin = false;
                 this._loadDataFromStorage();
                 this.$el.find('.J_LoginBtn').show();
             });
+    }
+
+    setNickName(nickName) {
+        this.nickName = nickName;
+        this.$el.find('.J_NickName').html(nickName + '的');
+        document.title = nickName + '的2019年终总结';
     }
 
     _loadDataFromStorage() {
@@ -256,7 +274,9 @@ class Home {
         ];
 
         return {
-            days: allDays,
+            days: allDays
+                .filter(day => !!day.date && day.date !== 'undefined')
+                .sort((a, b) => Number(a.date.replace(/-/g, '')) - Number(b.date.replace(/-/g, ''))),
             luck: this.luck.data,
             love: this.love.data,
             loveMore: this.$loveMore.val(),

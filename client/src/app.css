@@ -31,6 +31,8 @@
 
 .login-btn { background: #f23030; border-radius: 4px; height: 26px; padding: 0 10px; color: #fff; }
 
+.app-nickname .app-modal-con { height: 160px; }
+
 .app-home { padding-bottom: 50px; }
 .app-home h1 { font-size: 24px; padding: 10px; }
 .app-home h2 { font-size: 18px; padding: 0 10px; color: #aaa; }
@@ -41,7 +43,7 @@
 .app-content { padding: 10px; font-size: 14px; }
 .app-content-con { color: #666; }
 
-.app-day-content { padding: 10px 0; font-size: 13px; line-height: 22px; }
+.app-day-content { padding: 10px 0; font-size: 14px; line-height: 22px; }
 .app-day-images { padding-bottom: 10px; }
 .app-day-img { display: block; width: 100%; }
 .app-day-img~.app-day-img { margin-top: 10px; }

@@ -119,7 +119,7 @@ export function compressImage(imageFile, quality, cb) {
             });
         }
 
-        const width = Math.max(750, image.width);
+        const width = Math.min(750, image.width);
         const height = image.width == width ? image.height : Math.round(image.height * (width / image.width));
 
         var canvas = document.createElement('canvas');

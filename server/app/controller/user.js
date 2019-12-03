@@ -30,6 +30,17 @@ class UserController extends Controller {
         ctx.body = res;
     }
 
+    async setNickName() {
+        const { ctx } = this;
+        const payloadRule = {
+            nickName: { type: 'string', required: true },
+        };
+        ctx.validate(payloadRule);
+
+        const res = await ctx.service.user.setNickName(ctx.request.body.nickName);
+        ctx.body = res;
+    }
+
     async getUserYearRecord() {
         const { ctx } = this;
         const res = await ctx.service.user.getUserYearRecord();

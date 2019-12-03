@@ -21,7 +21,6 @@ class UserService extends Service {
             : Math.round(Math.random() * 1000000);
 
         await this.app.redis.set('ny:vc:' + mobile, JSON.stringify([Date.now(), verifyCode, 0]), 'EX', 60 * 3);
-        console.log(mobile, ':', verifyCode);
 
         if (mobile == '18721979478') {
             return { success: true, code: 0 };
@@ -95,8 +94,22 @@ class UserService extends Service {
         }
     }
 
+    async setNickName(nickName) {
+        const res = await this.verifyTk();
+        if (!res.success) {
+            return res;
+        }
+
+        const { userId } = res;
+        const updateRes = await this.app.mysql.query('update user set nickName=? where id=?', [nickName, userId]);
+        return {
+            success: true,
+            data: updateRes
+        };
+    }
+
     async getUserYear(userId) {
-        const rows = await this.app.mysql.query('select content from user_year_2019 where userId=?', [userId]);
+        const rows = await this.app.mysql.query('select nickName,content from user_year_2019 join user on user.id=user_year_2019.userId where userId=?', [userId]);
 
         return {
             success: true,
@@ -111,7 +124,7 @@ class UserService extends Service {
         }
 
         const { userId } = res;
-        const rows = await this.app.mysql.query('select content from user_year_2019 where userId=?', [userId]);
+        const rows = await this.app.mysql.query('select nickName,content from user_year_2019 join user on user.id=user_year_2019.userId where userId=?', [userId]);
 
         return {
             success: true,

@@ -1,5 +1,6 @@
 import show from './show.html';
 import { post, encodeHTML, completeSfsUrl } from '../util';
+import LOVE_LIST from '../consts/LOVE_LIST';
 
 function encodeContent(text) {
     return encodeHTML(text)
@@ -49,11 +50,23 @@ class Show {
                     if (res.data) {
                         const data = JSON.parse(res.data.content);
                         console.log(data);
+                        this.setNickName(res.data.nickName);
 
+                        // 结语
                         this.$el.find('.J_Summary').html(encodeContent(data.summary));
-                        this.initKeywords(data.keywords);
-                        this.initLuck(data.luck);
 
+                        // 关键字
+                        this.initKeywords(data.keywords);
+
+                        // 最爱
+                        this.initLove(data.love);
+                        this.$el.find('.J_LoveMore').html(encodeContent(data.loveMore));
+
+                        // 记事
+                        const days = data.days.map((day) => this.createDayItem(day)).join('');
+                        this.$el.find('.J_Days').html(days);
+
+                        // 健康
                         const { healthExamination, sports, hospital } = data.health;
                         this.$el.find('.J_Hospital').html(hospital);
                         this.$el.find('.J_Sports').html(sports);
@@ -61,11 +74,41 @@ class Show {
 
                         this.$el.find('.J_HealthText').html(encodeContent(data.health.content));
 
-                        const days = data.days.map((day) => this.createDayItem(day)).join('');
-                        this.$el.find('.J_Days').html(days);
+                        // 运势
+                        this.initLuck(data.luck);
                     }
                 });
         }
+    }
+
+    setNickName(nickName) {
+        this.$el.find('.J_NickName').html(nickName);
+        document.title = nickName + '的2019年终总结';
+    }
+
+    initLove(love) {
+        const html = LOVE_LIST.map(({ title, subTitle }, i) => {
+            const data = love[i] || {};
+            const tags = (data.tags || []).concat((data.moreTags || '').split(/[,，]/)).filter(tag => !!tag);
+
+            const content = tags.length || data.sayLove
+                ? `${tags ? title + ':' + tags.map(tag => `<span>${encodeHTML(tag)}</span>`).join('') : ''}
+                ${data.loveTags && data.loveTags.length ? `<div class="pt_s">${subTitle}:${data.loveTags && data.loveTags.map(tag => `<span>${encodeHTML(tag)}</span>`).join('')}</div>` : ''}
+                ${data.sayLove ? `<code>${encodeHTML(data.sayLove)}</code>` : ''}`
+                : null;
+
+            return content
+                ? (
+                    `<div class="J_LoveItem app-card flex home_love_item">
+                        <div class="J_Content app-love-content fx_1">${content}</div>
+                    </div>`
+                )
+                : null;
+        })
+            .filter(item => !!item)
+            .join('');
+
+        this.$el.find('.J_Love').html(html);
     }
 
     initKeywords({ tags = [], moreTags = '' } = {}) {
