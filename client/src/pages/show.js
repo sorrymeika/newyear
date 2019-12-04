@@ -61,6 +61,9 @@ class Show {
                         // 最爱
                         this.initLove(data.love);
                         this.$el.find('.J_LoveMore').html(encodeContent(data.loveMore));
+                        this.$el.find('.J_LoveMore').css({
+                            display: data.loveMore ? 'block' : 'none'
+                        });
 
                         // 记事
                         const days = data.days.map((day) => this.createDayItem(day)).join('');
