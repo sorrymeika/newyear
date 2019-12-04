@@ -15,6 +15,7 @@ export default class FeedbackModal {
                         </div>
                     </div>
                     <div class="app-modal-footer">
+                        <button class="J_HideModal btn_cancel">取消</button>
                         <button class="J_Confirm btn_confirm">确定</button>
                     </div>
                 </div>
