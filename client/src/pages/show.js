@@ -1,6 +1,7 @@
 import show from './show.html';
 import { post, encodeHTML, completeSfsUrl } from '../util';
 import LOVE_LIST from '../consts/LOVE_LIST';
+import FeedbackModal from '../components/FeedbackModal';
 
 function encodeContent(text) {
     return encodeHTML(text)
@@ -37,6 +38,8 @@ class Show {
         this.el.className = "app-page";
         this.$el = $(this.el);
         this.el.innerHTML = show;
+
+        this.feedback = new FeedbackModal();
 
         this._registerListeners();
     }
@@ -163,9 +166,13 @@ class Show {
     }
 
     _registerListeners() {
-        this.$el.on('click', '.J_AlsoMe', () => {
-            location.hash = "/";
-        });
+        this.$el
+            .on('click', '.J_AlsoMe', () => {
+                location.hash = "/";
+            })
+            .on('click', '.J_Feedback', () => {
+                this.feedback.show();
+            });
     }
 }
 

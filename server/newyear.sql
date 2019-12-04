@@ -47,3 +47,11 @@ create table user_year_2019 (
     createDt timestamp,
     updateDt timestamp
 );
+
+
+create table user_feedback (
+    id int(11) primary key auto_increment,
+    userId int(11),
+    content varchar(2000),
+    createDt timestamp
+);

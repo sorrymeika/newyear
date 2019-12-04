@@ -32,6 +32,10 @@
 .login-btn { background: #f23030; border-radius: 4px; height: 26px; padding: 0 10px; color: #fff; }
 
 .app-nickname .app-modal-con { height: 160px; }
+.app-feedback .app-modal-con { height: 230px; }
+.app-feedback .app-text { height: 120px; }
+
+.feedback-link { font-size: 14px; color: #f23030; margin-right: 10px; text-decoration: underline; }
 
 .app-home { padding-bottom: 50px; }
 .app-home h1 { font-size: 24px; padding: 10px; }

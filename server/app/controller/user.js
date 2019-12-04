@@ -41,6 +41,17 @@ class UserController extends Controller {
         ctx.body = res;
     }
 
+    async addFeedback() {
+        const { ctx } = this;
+        const payloadRule = {
+            feedback: { type: 'string', required: true },
+        };
+        ctx.validate(payloadRule);
+
+        const res = await ctx.service.user.addFeedback(ctx.request.body.feedback);
+        ctx.body = res;
+    }
+
     async getUserYearRecord() {
         const { ctx } = this;
         const res = await ctx.service.user.getUserYearRecord();

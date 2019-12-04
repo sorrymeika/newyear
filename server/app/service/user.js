@@ -108,6 +108,16 @@ class UserService extends Service {
         };
     }
 
+    async addFeedback(feedback) {
+        const res = await this.verifyTk();
+        const userId = res.success ? res.userId : 0;
+        const addRes = await this.app.mysql.query('insert into user_feedback (content,userId) values (?,?)', [feedback, userId]);
+        return {
+            success: true,
+            data: addRes
+        };
+    }
+
     async getUserYear(userId) {
         const rows = await this.app.mysql.query('select nickName,content from user_year_2019 join user on user.id=user_year_2019.userId where userId=?', [userId]);
 
