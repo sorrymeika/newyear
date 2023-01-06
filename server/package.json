@@ -9,7 +9,7 @@
   },
   "homepage": "https://github.com/sorrymeika/newyear#readme",
   "devDependencies": {
-    "egg-bin": "^4.13.1"
+    "egg-bin": "^4.20.0"
   },
   "dependencies": {
     "egg": "^2.23.0",
